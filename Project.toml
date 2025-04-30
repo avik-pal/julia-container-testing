@@ -1,6 +1,12 @@
 [deps]
-CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 Lux = "b2108857-7c20-44ae-9111-449ecde12c47"
-LuxCUDA = "d0bbae9a-e099-4d5b-a835-1c6931763bda"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
-cuDNN = "02a925ec-e4fe-4b08-9a7e-0d78e3d38ccd"
+PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
+Reactant = "3c362404-f566-11ee-1572-e11a4b42c853"
+Reactant_jll = "0192cb87-2b54-54ad-80e0-3be72ad8a3c0"
+
+[preferences.Reactant]
+xla_runtime = "IFRT"
+
+[preferences.Reactant_jll]
+cuda_version = "12.6"
+gpu = "cuda"
