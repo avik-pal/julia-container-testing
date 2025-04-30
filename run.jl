@@ -1,9 +1,5 @@
-using Lux, CUDA
+using Lux, Reactant
 
-if CUDA.has_cuda()
-    println("Running on GPU")
-    # GPU paths…
-else
-    println("Running on CPU")
-    # CPU fallback…
+for (i, dev) in enumerate(Reactant.devices())
+    println("[", i, "] ", string(dev))
 end
