@@ -3,7 +3,7 @@ FROM nvidia/cuda:12.6.1-cudnn-devel-ubuntu24.04
 ARG JULIA_VERSION=1.11.5
 ENV JULIA_CPU_TARGET=generic
 ENV JULIA_DEBUG=Reactant_jll
-ENV JULIA_DEPOT_PATH=./.julia
+ENV JULIA_DEPOT_PATH=/app/.julia
 
 # Some common packages
 RUN apt-get update
@@ -37,11 +37,13 @@ RUN rm -rf juliaup
 RUN curl -fsSL https://install.julialang.org | sh -s -- --default-channel ${JULIA_VERSION} --yes --path ./juliaup
 
 # copy both TOMLs and precompile exactly your locked versions
-COPY Project.toml Manifest.toml sysimage.jl run.jl ./
+COPY Project.toml sysimage.jl run.jl ./  
 RUN ./juliaup/bin/julialauncher --project=. --threads=auto -e 'import Pkg; Pkg.instantiate(); Pkg.precompile()'
 RUN ./juliaup/bin/julialauncher --project=. --threads=auto sysimage.jl
 
 RUN ./juliaup/bin/julialauncher -q -JHiFlightSysImage.so -e 'println(Base.loaded_modules)'
+
+chmod 777 -r 
 
 # now copy the rest and set your entrypoint
 CMD ["./juliaup/bin/julialauncher", "-q", "-JHiFlightSysImage.so", "--threads=auto", "--project=.", "run.jl"]
